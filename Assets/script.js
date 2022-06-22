@@ -1,5 +1,10 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var lowercase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var uppercase = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+var nums = ['1','2','3','4','5','6','7','8','9','0'];
+var specChars = ['~','`','!','@','#','$','%','^','&','*','(',')','_','-','+','=','{','[','}',']','|',':',';','<','>','?','/'];
+
 var userInput = {
   length: 0,
   includeLowerCase: false,
@@ -31,12 +36,53 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 function generatePassword() {
   userInput.getPreferences();
+  var charList = [];
+  var acceptedChars = [];
+
+  //these if statements ensure that one of each type of characters ends up in the password
+  //as well as tells the generator what characters are allowed in the password
+
+  //if the user wants to include lowercase letters
+  if (userInput.includeLowerCase) {
+    charList.push(lowercase[Math.floor(Math.random() * (lowercase.length))]);
+    acceptedChars = acceptedChars.concat(lowercase);
+  }
+  //if the user wants to include capital letters
+  if (userInput.includeUpperCase) {
+    charList.push(uppercase[Math.floor(Math.random() * (uppercase.length))]);
+    acceptedChars = acceptedChars.concat(uppercase);
+  }
+  //if the user wants to include numbers
+  if (userInput.includeNums) {
+    charList.push(nums[Math.floor(Math.random() * (nums.length))]);
+    acceptedChars = acceptedChars.concat(nums);
+  }
+  //if the user wants to include special characters
+  if (userInput.includeSpecialCharacters) {
+    charList.push(specChars[Math.floor(Math.random() * (specChars.length))]);
+    acceptedChars = acceptedChars.concat(specChars);
+  }
+
+  //adds the remaining number of characters to the password 
+  for (i = charList.length; i < userInput.length; i++) {
+    charList.push(acceptedChars[Math.floor(Math.random() * acceptedChars.length)]);
+  }
+  console.log(charList);
+  
+  //shuffles the password to ensure that the first characters are not predictable
+  var output = "";
+  var size = charList.length;
+  for (i = 0; i < size; i++) {
+    output = output + charList.splice(Math.floor([Math.random() * charList.length]),1);
+  }
+
+  return output;
 }
+
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
