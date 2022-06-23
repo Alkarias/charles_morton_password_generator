@@ -25,13 +25,13 @@ var userInput = {
     } while (!validResponse);
 
     //asks the user if they would like to include lowercase letters in their password
-    this.includeLowerCase = confirm('would you like to include lowercase letters?');
+    this.includeLowerCase = confirm('Click OK to include lowercase letters?');
     //asks the user if they would like the include capital letters in their password
-    this.includeUpperCase = confirm('Would you like to include capital letters?'); 
+    this.includeUpperCase = confirm('Click OK to include capital letters?'); 
     //asks the user if they would like to include numbers in their password
-    this.includeNums = confirm('Would you like to include numbers?');
+    this.includeNums = confirm('Click OK to include numbers?');
     //asks the user if they would like to include special characters in their password
-    this.includeSpecialCharacters = confirm('Would you like to include special characters?');
+    this.includeSpecialCharacters = confirm('Click OK to include special characters?');
   }
 }
 // Write password to the #password input
