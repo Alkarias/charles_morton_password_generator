@@ -14,7 +14,7 @@ var userInput = {
   getPreferences: function() {
 
     var message = "How many characters long should this password be?";
-    do {
+    do { // prompts the user for the length of their generated password
       this.length = Number(prompt(message));
       var validResponse = false;
       if (this.length >= 8 && this.length <= 128) {
@@ -24,9 +24,13 @@ var userInput = {
       }
     } while (!validResponse);
 
+    //asks the user if they would like to include lowercase letters in their password
     this.includeLowerCase = confirm('would you like to include lowercase letters?');
+    //asks the user if they would like the include capital letters in their password
     this.includeUpperCase = confirm('Would you like to include capital letters?'); 
+    //asks the user if they would like to include numbers in their password
     this.includeNums = confirm('Would you like to include numbers?');
+    //asks the user if they would like to include special characters in their password
     this.includeSpecialCharacters = confirm('Would you like to include special characters?');
   }
 }
@@ -38,6 +42,7 @@ function writePassword() {
   passwordText.value = password;
 }
 
+// series of algorithms that generate a random password
 function generatePassword() {
   userInput.getPreferences();
   var charList = [];
