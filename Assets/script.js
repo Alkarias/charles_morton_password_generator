@@ -13,16 +13,22 @@ var userInput = {
   includeSpecialCharacters: false,
   getPreferences: function() {
 
+    // prompts the user for the length of their generated password and only
+    // allows them to continue once they have entered an acceptable response
     var message = "How many characters long should this password be?";
-    do { // prompts the user for the length of their generated password
-      this.length = Number(prompt(message));
+    do { 
       var validResponse = false;
-      if (this.length >= 8 && this.length <= 128) {
-        validResponse = true;
+      this.length = Math.floor(parseFloat(prompt(message)));
+      if (isNaN(this.length)) { // if the input is not a number
+        message = "You may only enter numbers!";
+      } else if (this.length < 8) { // if the input is less than 8 characters
+        message = "Password must be at least 8 characters long!";
+      } else if (this.length > 128) { // if the input is greater than 128 characters
+        message = "Password cannot exceed 128 characters!";
       } else {
-        message = "Must be between 8 and 128 characters!";
+        validResponse = true;
       }
-    } while (!validResponse);
+    } while(!validResponse);
 
     //asks the user if they would like to include lowercase letters in their password
     this.includeLowerCase = confirm('Click OK to include lowercase letters?');
@@ -34,6 +40,7 @@ var userInput = {
     this.includeSpecialCharacters = confirm('Click OK to include special characters?');
   }
 }
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -53,24 +60,25 @@ function generatePassword() {
 
   //if the user wants to include lowercase letters
   if (userInput.includeLowerCase) {
-    charList.push(lowercase[Math.floor(Math.random() * (lowercase.length))]);
-    acceptedChars = acceptedChars.concat(lowercase);
+    charList.push(lowercase[Math.floor(Math.random() * (lowercase.length))]); //ensures that at least one lowercase letter is included
+    acceptedChars = acceptedChars.concat(lowercase); //adds the lowercase letters to the options for the password
   }
   //if the user wants to include capital letters
   if (userInput.includeUpperCase) {
-    charList.push(uppercase[Math.floor(Math.random() * (uppercase.length))]);
-    acceptedChars = acceptedChars.concat(uppercase);
+    charList.push(uppercase[Math.floor(Math.random() * (uppercase.length))]); //ensures that at least one capital letter is included
+    acceptedChars = acceptedChars.concat(uppercase); //adds the capital letters to the options for the password
   }
   //if the user wants to include numbers
   if (userInput.includeNums) {
-    charList.push(nums[Math.floor(Math.random() * (nums.length))]);
-    acceptedChars = acceptedChars.concat(nums);
+    charList.push(nums[Math.floor(Math.random() * (nums.length))]); //ensures that at least one number is included
+    acceptedChars = acceptedChars.concat(nums); //adds the numbers to the options for the password
   }
   //if the user wants to include special characters
   if (userInput.includeSpecialCharacters) {
-    charList.push(specChars[Math.floor(Math.random() * (specChars.length))]);
-    acceptedChars = acceptedChars.concat(specChars);
+    charList.push(specChars[Math.floor(Math.random() * (specChars.length))]); //ensures that at least one special character is included
+    acceptedChars = acceptedChars.concat(specChars); //adds the special characters to the options for the password
   }
+  console.log(acceptedChars);
 
   //adds the remaining number of characters to the password 
   for (i = charList.length; i < userInput.length; i++) {
@@ -87,7 +95,6 @@ function generatePassword() {
 
   return output;
 }
-
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
